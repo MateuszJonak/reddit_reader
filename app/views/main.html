@@ -1,6 +1,14 @@
 <div class="jumbotron">
 
+    <label for="subreddits">Type your subreddits:</label>
+    <input id="subreddits" type="text" ng-model="subreddit" />
+    <button class="btn" ng-click="display()">Display</button>
+
+    <ul>
+        <li ng-repeat="a in articles">{{ a.title }}</li>
+    </ul>
 </div>
+
 
 <div class="row">
 
