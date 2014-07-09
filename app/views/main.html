@@ -1,11 +1,14 @@
 <div class="jumbotron">
 
-    <label for="subreddits">Type your subreddits:</label>
-    <input id="subreddits" type="text" ng-model="subreddit" />
-    <button class="btn" ng-click="display()">Display</button>
+    <form ng-submit="displayListing()">
+        <label for="input-subreddit">Type your subreddits:</label>
+        <input id="input-subreddit" type="text" ng-model="subreddit" />
+        <input type="submit" class="btn" />
+    </form>
+
 
     <ul>
-        <li ng-repeat="a in articles">{{ a.title }}</li>
+        <li ng-repeat="a in articles" ng-click="goToArticle( a.permalink )">{{ a.title }}</li>
     </ul>
 </div>
 

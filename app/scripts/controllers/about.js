@@ -8,10 +8,7 @@
  * Controller of the redditReaderApp
  */
 angular.module('redditReaderApp')
-  .controller('AboutCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('AboutCtrl', function ($scope, redditFactory) {
+        $scope.permalink = redditFactory.permalink;
+
   });
