@@ -11,6 +11,12 @@ angular.module('redditReaderApp')
 
     .controller('MainCtrl', function ($scope, $location, redditFactory) {
 
+        $scope.awesomeThings = [
+            'HTML5 Boilerplate',
+            'AngularJS',
+            'Karma'
+        ];
+
         $scope.displayListing = function(){
             redditFactory.getListing($scope.subreddit).then(function(result){
                 $scope.articles = result;
