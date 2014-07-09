@@ -8,12 +8,15 @@
  *
  * Main module of the application.
  */
+
+
 angular
     .module('redditReaderApp', [
         'ngAnimate',
         'ngCookies',
         'ngResource',
-        'ngRoute'
+        'ngRoute',
+        'ngSanitize'
     ])
 
     .config(function ($routeProvider) {
@@ -75,4 +78,16 @@ angular
 
             }
         }
+    })
+    .filter('unsafe', function($sce) {
+        return function(val) {
+            return $sce.trustAsHtml(val);
+        };
+    })
+    .filter('htmldecode', function() {
+        return function(val) {
+            var e = document.createElement('div');
+            e.innerHTML = val;
+            return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+        };
     })

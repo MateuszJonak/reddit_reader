@@ -8,11 +8,11 @@
  * Controller of the redditReaderApp
  */
 angular.module('redditReaderApp')
-  .controller('DetailsCtrl', function ($scope, $routeParams, redditFactory) {
-        redditFactory.getComment($routeParams.id).then(function(result){
+  .controller('DetailsCtrl', function ($scope, $routeParams,$sce, redditFactory) {
+        $scope.id = $routeParams.id;
+        redditFactory.getComment($scope.id).then(function(result){
             $scope.data = result;
-//            console.log(result);
 
         });
 
-  });
+  })
