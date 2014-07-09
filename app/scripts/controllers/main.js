@@ -16,7 +16,7 @@ angular.module('redditReaderApp')
             'AngularJS',
             'Karma'
         ];
-
+        $scope.subreddit = redditFactory.subreddit;
         $scope.displayListing = function(){
             redditFactory.getListing($scope.subreddit).then(function(result){
                 $scope.articles = result;
@@ -24,5 +24,10 @@ angular.module('redditReaderApp')
 
             });
         }
+
+        // Display newest article on first enter,
+        // And Display article by subreddit, after back from details
+        $scope.displayListing($scope.subreddit);
+
 
     });

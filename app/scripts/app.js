@@ -35,19 +35,27 @@ angular
     })
 
     .factory('redditFactory', function($http, $q){
+
         return{
+            // Subreddit field for display listing
+            subreddit : this.subreddit,
+
             getListing: function(subreddit){
-                var articlesArray = [];
+                // Array with articles listing
+                var listing = [];
                 var result = $q.defer();
+                this.subreddit = subreddit;
                 var url = (subreddit) ? 'http://www.reddit.com/r/' + subreddit + '/new.json?sort=new' : 'http://www.reddit.com/new.json?sort=new';
+
                 $http({method: 'GET', url: url}).
                     success(function(data, status, headers, config) {
-                        console.log(data);
+                        // Get articles listing from JSON
                         var data = data.data.children;
                         _(data).each(function(item){
-                            articlesArray.push(item.data);
+                            listing.push(item.data);
                         });
-                        result.resolve(articlesArray);
+                        result.resolve(listing);
+
                     }).
                     error(function(data, status, headers, config) {
                         // called asynchronously if an error occurs
@@ -58,17 +66,22 @@ angular
             },
 
             getComment: function(id){
+                // Array with comments listing
                 var comments = [];
                 var result = $q.defer();
                 var url = 'http://www.reddit.com/'+ id + '.json';
+
                 $http({method: 'GET', url: url}).
                     success(function(data, status, headers, config) {
+                        // Get article data from JSON
                         var article = data[0].data.children[0].data;
+                        // Get comments listing from JSON
                         var dataComments = data[1].data.children;
                         _(dataComments).each(function(item){
                             comments.push(item.data);
                         });
                         result.resolve({'article': article, 'comments': comments});
+
                     }).
                     error(function(data, status, headers, config) {
                         // called asynchronously if an error occurs
@@ -79,11 +92,15 @@ angular
             }
         }
     })
+
+    // Change String for HTML code
     .filter('unsafe', function($sce) {
         return function(val) {
             return $sce.trustAsHtml(val);
         };
     })
+
+    // Decode signs like &lt;/p&gt;
     .filter('htmldecode', function() {
         return function(val) {
             var e = document.createElement('div');
