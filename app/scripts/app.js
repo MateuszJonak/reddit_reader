@@ -22,9 +22,9 @@ angular
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
             })
-            .when('/details', {
+            .when('/details/:id', {
                 templateUrl: 'views/details.html',
-                controller: 'AboutCtrl'
+                controller: 'DetailsCtrl'
             })
             .otherwise({
                 redirectTo: '/'
@@ -39,7 +39,8 @@ angular
                 var url = (subreddit) ? 'http://www.reddit.com/r/' + subreddit + '/new.json?sort=new' : 'http://www.reddit.com/new.json?sort=new';
                 $http({method: 'GET', url: url}).
                     success(function(data, status, headers, config) {
-                        data = data.data.children;
+                        console.log(data);
+                        var data = data.data.children;
                         _(data).each(function(item){
                             articlesArray.push(item.data);
                         });
@@ -53,7 +54,24 @@ angular
 
             },
 
-            getComment: function(){
+            getComment: function(id){
+                var comments = [];
+                var result = $q.defer();
+                var url = 'http://www.reddit.com/'+ id + '.json';
+                $http({method: 'GET', url: url}).
+                    success(function(data, status, headers, config) {
+                        var article = data[0].data.children[0].data;
+                        var dataComments = data[1].data.children;
+                        _(dataComments).each(function(item){
+                            comments.push(item.data);
+                        });
+                        result.resolve({'article': article, 'comments': comments});
+                    }).
+                    error(function(data, status, headers, config) {
+                        // called asynchronously if an error occurs
+                        // or server returns response with an error status.
+                    });
+                return result.promise;
 
             }
         }

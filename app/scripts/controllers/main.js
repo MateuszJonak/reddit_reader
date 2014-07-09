@@ -20,13 +20,9 @@ angular.module('redditReaderApp')
         $scope.displayListing = function(){
             redditFactory.getListing($scope.subreddit).then(function(result){
                 $scope.articles = result;
+//                console.log(result);
 
             });
-        }
-
-        $scope.goToArticle = function(permalink){
-            redditFactory.permalink = permalink;
-            $location.path('/details');
         }
 
     });
