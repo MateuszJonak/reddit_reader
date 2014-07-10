@@ -18,9 +18,8 @@ angular.module('redditReaderApp')
         ];
         $scope.subreddit = redditFactory.subreddit;
         $scope.displayListing = function(){
-            redditFactory.getListing($scope.subreddit).then(function(result){
+            redditFactory.getListing($scope.subreddit, 'new').then(function(result){
                 $scope.articles = result;
-//                console.log(result);
 
             });
         }

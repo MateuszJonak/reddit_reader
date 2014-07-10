@@ -10,7 +10,7 @@
 angular.module('redditReaderApp')
   .controller('DetailsCtrl', function ($scope, $routeParams,$sce, redditFactory) {
         $scope.id = $routeParams.id;
-        redditFactory.getComment($scope.id).then(function(result){
+        redditFactory.getComment($routeParams.subreddit, $routeParams.id, 1, 10, 'top').then(function(result){
             $scope.data = result;
 
         });
