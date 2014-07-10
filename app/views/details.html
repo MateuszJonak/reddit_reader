@@ -3,7 +3,7 @@
 
     <div ng-bind-html="data.article.selftext_html | htmldecode | unsafe"></div>
 
-    <h3>Comments:</h3>
+    <h3>Top {{ data.comments.length }} Comments:</h3>
     <div class="media">
         <div class="media-body" ng-repeat="c in data.comments">
             <h4 class="media-heading">Author: {{ c.author }}</h4>
