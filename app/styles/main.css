@@ -43,6 +43,12 @@ a{
     transition-timing-function:cubic-bezier(0.490, 0.005, 0.000, 0.665)
 }
 
+.box-shadow-down{
+    -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.26);
+    -moz-box-shadow:    0px 2px 3px 0px rgba(0, 0, 0, 0.26);
+    box-shadow:         0px 2px 3px 0px rgba(0, 0, 0, 0.26);
+}
+
 /***********************************************/
 /* Bootstrap changes ***************************/
 /***********************************************/
@@ -53,9 +59,6 @@ a{
     color: #e1f5fe;
     -webkit-border-radius: 0px;
             border-radius: 0px;
-    -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.26);
-    -moz-box-shadow:    0px 2px 3px 0px rgba(0, 0, 0, 0.26);
-    box-shadow:         0px 2px 3px 0px rgba(0, 0, 0, 0.26);
 }
 
 
@@ -76,6 +79,7 @@ input[type="email"] {
     box-shadow: none;
     font-size: 32px;
     color: #0288d1;
+    width: 60%;
 }
 
 input[type="text"]:focus,
@@ -88,14 +92,42 @@ input[type="email"]:focus{
 
 }
 
+::-webkit-input-placeholder {
+    color: #0288d1;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: #0288d1;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: #0288d1;
+}
+
+:-ms-input-placeholder {
+    color: #0288d1;
+}
+
 .btn{
     background-color: #039be5;
     color: #e1f5fe;
-    width: 25%;
+    width: 50%;
     font-size: 18px;
-    -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.26);
-    -moz-box-shadow:    0px 2px 3px 0px rgba(0, 0, 0, 0.26);
-    box-shadow:         0px 2px 3px 0px rgba(0, 0, 0, 0.26);
+
+}
+
+@media (max-width: 767px) {
+    .btn{
+        width: 100%;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="datetime"],
+    input[type="number"],
+    input[type="email"] {
+        width: 100%;
+    }
 }
 
 .btn:focus,
@@ -107,33 +139,95 @@ input[type="email"]:focus{
     box-shadow:         0px 4px 6px 0px rgba(0, 0, 0, 0.26);
 }
 
+/***********************************************/
+/* Subreddit form ******************************/
+/***********************************************/
+
 #subreddit-form label{
     font-size: 32px;
     padding-right: 10px;
 }
 
-#subreddit-form button[type="submit"]{
+#subreddit-form button[type="submit"] {
     display: block;
-    margin: auto;
+    margin: 10px auto 0;
+}
+
+#subreddit-form button span.glyphicon {
+    font-size: 15px;
 }
 
 /***********************************************/
-/* Article list ********************************/
+/* Article ********************************/
 /***********************************************/
 
-#article-list .box-article{
-    padding: 10px 0;
+.box-article{
+    padding: 10px 20px 30px;
     margin: 10px 0;
     border: 1px solid #AAAAAA;
     background-color: #e1f5fe;
 }
 
-#article-list img{
+.box-article:hover,
+.box-article:focus{
+    background-color: #eef8ff;
+    -webkit-box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.26);
+    -moz-box-shadow:    0px 4px 6px 0px rgba(0, 0, 0, 0.26);
+    box-shadow:         0px 4px 6px 0px rgba(0, 0, 0, 0.26);
+}
+
+.box-article .image-grid img{
     border-radius: 5px;
-    margin: 10px;
+    margin: 10px 10px 10px 0;
     background-color: #FFFFFF;
 }
 
-#article-list h3.title{
+.box-article .content-grid{
+    margin-left: 80px;
+    min-height: 80px;
+}
+
+@media (max-width: 767px) {
+    .box-article .content-grid{
+        margin-left: 0px;
+    }
+
+}
+
+.box-article .title{
     margin: 10px 0;
+}
+
+.box-article .domain{
+    position: absolute;
+    bottom: 5px;
+    right: 20px;
+}
+
+.box-article .info{
+    font-style: italic;
+}
+
+.box-article .text{
+    text-align: justify;
+}
+
+.box-article iframe{
+    width: 100%;
+}
+
+@media (min-width: 321px) and (max-width: 767px) {
+    /*.box-article iframe{*/
+        /*height: 260px;*/
+    /*}*/
+}
+
+@media (max-width: 450px){
+    .box-article iframe{
+        height: 200px;
+    }
+}
+
+.box-article  img.content-img{
+    margin: auto;
 }

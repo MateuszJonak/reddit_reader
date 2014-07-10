@@ -1,14 +1,13 @@
 
 <div class="row">
 
-    <form id="subreddit-form" class="form-inline" ng-submit="displayListing()">
+    <form id="subreddit-form" ng-submit="displayListing()">
         <div class="form-group">
             <label for="subreddit-input">Subreddits:</label>
             <input class="animate-cubic" id="subreddit-input" type="text" ng-model="subreddit" placeholder="Type your subreddits..." />
         </div>
 
-
-        <button type="submit" class="btn animate-cubic">Submit</button>
+        <button type="submit" class="btn animate-cubic box-shadow-down">Search    <span class="glyphicon glyphicon-search"></span></button>
 
     </form>
 
@@ -22,9 +21,15 @@
     <ul id="article-list" class="list-unstyled">
         <li ng-repeat="a in articles" >
             <a href="/#/details/{{ a.subreddit }}/{{ a.id }}" title="" >
-                <div class="box-article col-xs-12"  >
-                    <img ng-src="{{ (!a.thumbnail || a.thumbnail == 'self' || a.thumbnail == 'default') && '/images/reddit-logo.png'  || a.thumbnail }}" class=" pull-left"/>
-                    <h3 class="title">{{ a.title }}</h3>
+                <div class="box-article col-xs-12 animate-cubic box-shadow-down">
+                    <div class="image-grid">
+                        <img ng-src="{{ (a.thumbnail && a.thumbnail.indexOf('http') == 0) && a.thumbnail || '/images/reddit-logo.png' }}" class=" pull-left"/>
+                    </div>
+                    <div class="content-grid">
+                        <h3 class="title">{{ a.title }}</h3>
+                        <span class="domain" >( {{ a.domain }} )</span>
+                        <p class="info">{{ a.created_utc | timesince }} by {{ a.author }} - {{ a.num_comments }} comments</p>
+                    </div>
 
                 </div>
             </a>

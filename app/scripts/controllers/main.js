@@ -20,6 +20,7 @@ angular.module('redditReaderApp')
         $scope.displayListing = function(){
             redditFactory.getListing($scope.subreddit, 'new').then(function(result){
                 $scope.articles = result;
+//                console.log(result);
 
             });
         }

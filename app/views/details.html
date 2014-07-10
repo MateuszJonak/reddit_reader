@@ -1,7 +1,22 @@
 
-    <h2>{{ data.article.title | htmldecode }}</h2>
+    <div class="box-article col-xs-12 animate-cubic box-shadow-down">
+        <div class="image-grid">
+            <img ng-src="{{ (data.article.thumbnail && data.article.thumbnail.indexOf('http') == 0) && data.article.thumbnail || '/images/reddit-logo.png' }}" class=" pull-left"/>
+        </div>
+        <div class="content-grid">
+            <h2 class="title">{{ data.article.title | htmldecode }}</h2>
+            <a href="{{ data.article.url }}" title="" ><span class="domain" >Link to: {{ data.article.domain }}</span></a>
+            <p class="info">{{ data.article.created_utc | timesince }} by {{ data.article.author }} - {{ data.article.num_comments }} comments</p>
+            <div class="text" ng-bind-html="data.article.selftext_html | htmldecode | unsafe"></div>
 
-    <div ng-bind-html="data.article.selftext_html | htmldecode | unsafe"></div>
+        </div>
+        <!--IFRAME-->
+        <div class="iframe" ng-if="data.article.media_embed.content" ng-bind-html="data.article.media_embed.content | htmldecode | unsafe"></div>
+
+        <!--IMG-->
+        <article-img url-img="data.article.url"></article-img>
+
+    </div>
 
     <h3>Top {{ data.comments.length }} Comments:</h3>
     <div class="media">
