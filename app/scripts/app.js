@@ -43,15 +43,15 @@ angular
             // Subreddit field for display listing
             subreddit : this.subreddit,
 
-            getListing: function(subreddit, sort, limit, before, after){
+            getListing: function(subreddit, options){
                 // Array with articles listing
                 var listing = [];
                 var result = $q.defer();
-                this.itemsPerPage = limit;
+                this.itemsPerPage = options.limit;
                 this.subreddit = subreddit;
                 var url = (subreddit) ? 'http://www.reddit.com/r/' + subreddit + '/new.json' : 'http://www.reddit.com/new.json';
 
-                $http({method: 'GET', url: url, params: {sort : sort, limit: limit, before: before, after: after}}).
+                $http({method: 'GET', url: url, params: {sort : options.sort, limit: options.limit, before: options.before, after: options.after}}).
                     success(function(data, status, headers, config) {
                         // Get articles listing from JSON
                         var data = data.data.children;
@@ -69,13 +69,13 @@ angular
 
             },
 
-            getComment: function(subreddit, id, depth, limit, sort){
+            getComments: function(subreddit, id, options){
                 // Array with comments listing
                 var comments = [];
                 var result = $q.defer();
                 var url = 'http://www.reddit.com/r/'+ subreddit +'/comments/'+ id + '.json';
 
-                $http({method: 'GET', url: url, params: {depth: depth, limit: limit, sort: sort}}).
+                $http({method: 'GET', url: url, params: {depth: options.depth, limit: options.limit, sort: options.sort}}).
                     success(function(data, status, headers, config) {
 
                         // Get article data from JSON
@@ -88,7 +88,7 @@ angular
                         });
 
                         // Last element was undefined
-                        comments.splice(limit);
+                        comments.splice(options.limit);
 
                         result.resolve({'article': article, 'comments': comments});
 
@@ -98,6 +98,54 @@ angular
                         // or server returns response with an error status.
                     });
                 return result.promise;
+
+            },
+
+            login: function(){
+                // User test, created on reddit.com
+                var options ={
+                    user: 'test_cc',
+                    pass: 'zaqwsx'
+                }
+                var url = 'http://www.reddit.com/api/login?api_type=json&user=' + options.user + '&passwd=' + options.pass + '&rem=True'
+                var headers = {
+                    'User-Agent' : 'fooBot/1.0 by test_cc',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+
+                var login = $q.defer();
+                $http({method: 'POST', url: url, header:headers, withCredentials: true}).
+                    success(function(data, status, headers, config) {
+//                        console.log('fdfdf');
+                        login.resolve(data.json.data);
+                    }).
+                    error(function(data, status, headers, config) {
+
+                    });
+                return login.promise;
+            },
+
+            addComment: function(dataComment){
+
+                this.login().then(function(result){
+                    var loginData = result;
+                    var url = 'https://ssl.reddit.com/api/comment?api_type=json&text=' + encodeURIComponent(dataComment.text) + '&thing_id=' + dataComment.name;
+                    var headers  = {
+                        'User-Agent' : 'fooBot/0.1 by test_cc',
+                        'X-Modhash'  : loginData.modhash,
+                        'Cookie'     : 'reddit_session=' + loginData.cookie,
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    };
+                    $http({method: 'POST', url: url, header:headers, data:{message: "message"}}).
+                        success(function(data, status, headers, config) {
+                            console.log(data.errors);
+                        }).
+                        error(function(data, status, headers, config) {
+
+                        });
+                });
+
+
 
             }
         }

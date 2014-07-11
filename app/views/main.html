@@ -8,15 +8,12 @@
         </div>
 
         <button type="submit" class="btn animate-cubic box-shadow-down">Search    <span class="glyphicon glyphicon-search"></span></button>
-
     </form>
 
 </div>
 
 
-
-
-<div ng-controller="PaginationCtrl">
+<div>
 
     <h4>Pager</h4>{{ currentPage }}
     <pager total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged()"></pager>
@@ -25,13 +22,14 @@
 
 <div class="row">
 
-    <ul id="article-list" class="list-unstyled">
+    <ul id="article-list" class="list-unstyled" articles-list="articles">
+
         <li ng-repeat="a in articles" >
             <a href="/#/details/{{ a.subreddit }}/{{ a.id }}" title="" >
                 <article article-data="a" short-description="true"></article>
             </a>
-
         </li>
+
     </ul>
 
 

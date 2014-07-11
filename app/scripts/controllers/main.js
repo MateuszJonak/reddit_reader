@@ -16,39 +16,40 @@ angular.module('redditReaderApp')
             'AngularJS',
             'Karma'
         ];
+
+        // Display first listing
         $scope.subreddit = redditFactory.subreddit;
-        $scope.displayListing = function(){
-            redditFactory.getListing($scope.subreddit, 'new', 10).then(function(result){
-                $scope.articles = result;
-//                console.log(result);
-
-            });
-        }
-
-        // Display newest article on first enter,
-        // And Display article by subreddit, after back from details
-        $scope.displayListing();
 
 
-    })
-    .controller('PaginationCtrl', function ($scope, redditFactory) {
-        $scope.totalItems = 100000;
+        // Initial config for pager
+        $scope.totalItems = 1000;
         $scope.currentPage = 1;
         $scope.itemsPerPage = 10;
 
-//        $scope.watch('articles', function(newValue){
-//            $scope.articles = newValue;
-//        })
 
-        $scope.pageChanged = function () {
-            redditFactory.getListing($scope.subreddit, 'new', 10, null, $scope.articles[9].name).then(function(result){
+        $scope.$watch('currentPage', function(newPage, oldPage){
+            var options = {
+                'sort': 'new',
+                'limit': 10,
+                'before': null,
+                'after': null
+            }
+            if( newPage > oldPage){
+                options.after = $scope.articles[9].name;
+            } else if (newPage < oldPage){
+                options.before = $scope.articles[0].name;
+            }
+
+            redditFactory.getListing($scope.subreddit, options).then(function(result){
                 $scope.articles = result;
             });
-            console.log($scope.currentPage);
-        };
+
+        });
 
     })
-    .directive('article', function($http) {
+
+    .directive('article', function() {
+
         return {
             restrict: 'E',
             templateUrl: 'views/include/article.html',
@@ -57,7 +58,6 @@ angular.module('redditReaderApp')
                 shortDescription: '=shortDescription'
             }
         };
-
 
     })
 

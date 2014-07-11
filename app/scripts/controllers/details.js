@@ -8,15 +8,29 @@
  * Controller of the redditReaderApp
  */
 angular.module('redditReaderApp')
-    .controller('DetailsCtrl', function ($scope, $routeParams,$sce, redditFactory) {
+    .controller('DetailsCtrl', function ($scope, $routeParams, $sce, redditFactory) {
+        var options = {
+            depth: 1,
+            limit: 10,
+            sort: 'top'
+        }
 
-        redditFactory.getComment($routeParams.subreddit, $routeParams.id, 1, 10, 'top').then(function(result){
+        redditFactory.getComments($routeParams.subreddit, $routeParams.id, options).then(function(result){
             $scope.data = result;
 
         });
 
 
+
+        $scope.addComment = function(){
+            var dataComment = {
+                text: $scope.comment,
+                name: $scope.data.article.name
+            }
+            redditFactory.addComment(dataComment);
+        }
     })
+
     .directive('articleImg', function($http) {
         return {
             restrict: 'E',

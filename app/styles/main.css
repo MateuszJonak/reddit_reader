@@ -5,6 +5,12 @@ body {
     color: #01579b;
 }
 
+footer {
+    margin-top: 10px;
+    padding: 20px 0;
+    background-color: #0277bd;
+    color: #e1f5fe;
+}
 
 /* Customize container */
 @media (min-width: 768px) {
