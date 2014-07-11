@@ -48,4 +48,16 @@ angular.module('redditReaderApp')
         };
 
     })
-    
+    .directive('article', function($http) {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/include/article.html',
+            scope: {
+                a: '=articleData',
+                shortDescription: '=shortDescription'
+            }
+        };
+
+
+    })
+

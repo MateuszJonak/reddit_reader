@@ -1,0 +1,23 @@
+
+<div class="box-article col-xs-12 animate-cubic box-shadow-down">
+    <div class="image-grid">
+        <img ng-src="{{ (a.thumbnail && a.thumbnail.indexOf('http') == 0) && a.thumbnail || '/images/reddit-logo.png' }}" class=" pull-left"/>
+    </div>
+    <div class="content-grid">
+        <h2 class="title">{{ a.title | htmldecode }}</h2>
+        <a href="{{ a.url }}" title="" ><span class="domain" >Link to: {{ a.domain }}</span></a>
+        <p class="info">{{ a.created_utc | timesince }} by {{ a.author }} - {{ a.num_comments }} comments</p>
+
+        <div class="text" ng-if="!shortDescription" ng-bind-html="a.selftext_html | htmldecode | unsafe"></div>
+
+    </div>
+    <div class="media-grid" ng-if="!shortDescription">
+        <!--IFRAME-->
+        <div class="iframe" ng-if="a.media_embed.content" ng-bind-html="a.media_embed.content | htmldecode | unsafe"></div>
+
+        <!--IMG-->
+        <article-img url-img="a.url"></article-img>
+    </div>
+
+
+</div>

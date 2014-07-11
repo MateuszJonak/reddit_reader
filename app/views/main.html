@@ -24,20 +24,11 @@
 </div>
 
 <div class="row">
+
     <ul id="article-list" class="list-unstyled">
         <li ng-repeat="a in articles" >
             <a href="/#/details/{{ a.subreddit }}/{{ a.id }}" title="" >
-                <div class="box-article col-xs-12 animate-cubic box-shadow-down">
-                    <div class="image-grid">
-                        <img ng-src="{{ (a.thumbnail && a.thumbnail.indexOf('http') == 0) && a.thumbnail || '/images/reddit-logo.png' }}" class=" pull-left"/>
-                    </div>
-                    <div class="content-grid">
-                        <h3 class="title">{{ a.title }}</h3>
-                        <span class="domain" >( {{ a.domain }} )</span>
-                        <p class="info">{{ a.created_utc | timesince }} by {{ a.author }} - {{ a.num_comments }} comments</p>
-                    </div>
-
-                </div>
+                <article article-data="a" short-description="true"></article>
             </a>
 
         </li>
