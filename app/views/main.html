@@ -16,6 +16,12 @@
 
 
 
+<div ng-controller="PaginationCtrl">
+
+    <h4>Pager</h4>{{ currentPage }}
+    <pager total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged()"></pager>
+
+</div>
 
 <div class="row">
     <ul id="article-list" class="list-unstyled">

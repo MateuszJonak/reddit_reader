@@ -16,7 +16,8 @@ angular
         'ngCookies',
         'ngResource',
         'ngRoute',
-        'ngSanitize'
+        'ngSanitize',
+        'ui.bootstrap'
     ])
 
     .config(function ($routeProvider) {
@@ -37,17 +38,20 @@ angular
     .factory('redditFactory', function($http, $q){
 
         return{
+            // item for one page
+            itemsPerPage: this.itemsPerPage,
             // Subreddit field for display listing
             subreddit : this.subreddit,
 
-            getListing: function(subreddit, sort){
+            getListing: function(subreddit, sort, limit, before, after){
                 // Array with articles listing
                 var listing = [];
                 var result = $q.defer();
+                this.itemsPerPage = limit;
                 this.subreddit = subreddit;
-                var url = (subreddit) ? 'http://www.reddit.com/r/' + subreddit + '/new.json?sort=new' : 'http://www.reddit.com/new.json';
+                var url = (subreddit) ? 'http://www.reddit.com/r/' + subreddit + '/new.json' : 'http://www.reddit.com/new.json';
 
-                $http({method: 'GET', url: url, params: {sort : sort}}).
+                $http({method: 'GET', url: url, params: {sort : sort, limit: limit, before: before, after: after}}).
                     success(function(data, status, headers, config) {
                         // Get articles listing from JSON
                         var data = data.data.children;
@@ -154,6 +158,7 @@ angular
             return Math.floor(seconds) + " seconds ago";
         };
     })
+
     // Convert time from articles
     .filter('urltophoto', function() {
         return function(val) {
