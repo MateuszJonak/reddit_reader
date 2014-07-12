@@ -42,9 +42,9 @@ angular.module('redditReaderApp')
         $scope.$watch('currentPage', function(newPage, oldPage){
 
             if( newPage > oldPage){
-                options.after = $scope.articles[9].name;
+                optionsListing.after = $scope.articles[9].name;
             } else if (newPage < oldPage){
-                options.before = $scope.articles[0].name;
+                optionsListing.before = $scope.articles[0].name;
             }
 
             redditFactory.getListing($scope.subreddit, optionsListing).then(function(result){

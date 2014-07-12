@@ -13,10 +13,10 @@
 </div>
 
 
-<div>
+<div class="row pager-box box-shadow-down">
 
-    <h4>Pager</h4>{{ currentPage }}
-    <pager total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" ng-change="pageChanged()"></pager>
+    <h4 class="current-page">{{ currentPage }} page</h4>
+    <pager total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" align="false" ng-change="pageChanged()"></pager>
 
 </div>
 
