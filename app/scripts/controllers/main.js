@@ -17,9 +17,21 @@ angular.module('redditReaderApp')
             'Karma'
         ];
 
-        // Display first listing
+        var optionsListing = {
+            'sort': 'new',
+            'limit': 10,
+            'before': null,
+            'after': null
+        }
+
         $scope.subreddit = redditFactory.subreddit;
 
+        $scope.displayListing = function(){
+            redditFactory.getListing($scope.subreddit, optionsListing).then(function(result){
+                $scope.articles = result;
+
+            });
+        }
 
         // Initial config for pager
         $scope.totalItems = 1000;
@@ -28,19 +40,14 @@ angular.module('redditReaderApp')
 
 
         $scope.$watch('currentPage', function(newPage, oldPage){
-            var options = {
-                'sort': 'new',
-                'limit': 10,
-                'before': null,
-                'after': null
-            }
+
             if( newPage > oldPage){
                 options.after = $scope.articles[9].name;
             } else if (newPage < oldPage){
                 options.before = $scope.articles[0].name;
             }
 
-            redditFactory.getListing($scope.subreddit, options).then(function(result){
+            redditFactory.getListing($scope.subreddit, optionsListing).then(function(result){
                 $scope.articles = result;
             });
 
