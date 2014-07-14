@@ -4,7 +4,8 @@
     <form id="comment-form" ng-submit="addComment()">
         <div class="form-group">
             <label for="comment-text">Comment:</label>
-            <textarea class="animate-cubic" id="comment-text" ng-model="comment" placeholder="Type your comment..." ></textarea>
+            <textarea class="animate-cubic" id="comment-text" ng-model="comment"
+                      wrap="off" cols="30" rows="5" placeholder="Type your comment..." ></textarea>
         </div>
 
         <button type="submit" class="btn animate-cubic box-shadow-down">Submit    <span class="glyphicon glyphicon-pencil"></span></button>

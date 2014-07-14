@@ -38,19 +38,20 @@ angular
     .factory('redditFactory', function($http, $q){
 
         return{
-            // item for one page
-            itemsPerPage: this.itemsPerPage,
+
             // Subreddit field for display listing
             subreddit : this.subreddit,
 
-            getListing: function(subreddit, options){
-                // Array with articles listing
-                var listing = [];
-                var result = $q.defer();
-                this.itemsPerPage = options.limit;
-                this.subreddit = subreddit;
-                var url = (subreddit) ? 'http://www.reddit.com/r/' + subreddit + '/new.json' : 'http://www.reddit.com/new.json';
+            getListing: function(scope, subreddit, options){
 
+                var listing = [];           // Help array with articles listing
+                var result = $q.defer();    // Add result in to the queue
+                this.subreddit = subreddit; // save subreddit when we want back to main view
+
+                // create url - when we have subreddit we can show article only for this name
+                var url = (subreddit) ? 'http://www.reddit.com/r/' + subreddit + '/new.json' : 'http://www.reddit.com/new.json';
+                // emit that we will get data from reddit and controller must disable pager
+                scope.$emit('disablePager');
                 $http({method: 'GET', url: url, params: {sort : options.sort, limit: options.limit, before: options.before, after: options.after}}).
                     success(function(data, status, headers, config) {
                         // Get articles listing from JSON
@@ -62,17 +63,17 @@ angular
 
                     }).
                     error(function(data, status, headers, config) {
-                        // called asynchronously if an error occurs
-                        // or server returns response with an error status.
+
                     });
+
                 return result.promise;
 
             },
 
             getComments: function(subreddit, id, options){
-                // Array with comments listing
-                var comments = [];
-                var result = $q.defer();
+
+                var comments = [];          // Help array with articles listing
+                var result = $q.defer();    // Add result in to the queue
                 var url = 'http://www.reddit.com/r/'+ subreddit +'/comments/'+ id + '.json';
 
                 $http({method: 'GET', url: url, params: {depth: options.depth, limit: options.limit, sort: options.sort}}).
@@ -148,8 +149,39 @@ angular
 
 
             }
+
         }
     })
+
+    // directive for article box
+    .directive('article', function() {
+
+        return {
+            restrict: 'E',
+            templateUrl: 'views/include/article.html',
+            scope: {
+                a: '=articleData',
+                shortDescription: '=shortDescription'
+            }
+        };
+
+    })
+
+    // directive for ajax spinner
+    .directive('spinner', function() {
+
+        return {
+            restrict: 'E',
+            template: '<span class="ajax-spinner" ng-if="ifSpinner" class="animate-if" ng-style="{\'background-image\': \'url(../images/gif-load.gif)\'} "></span>',
+            scope: {
+                url: '=urlSpinner',
+                ifSpinner: '=ifSpinner'
+            }
+        };
+
+    })
+
+
 
     // Change String for HTML code
     .filter('unsafe', function($sce) {
@@ -217,3 +249,23 @@ angular
             return val;
         };
     })
+
+    // change default pager directive from ui.bootstrap
+    .config(function($provide) {
+        $provide.decorator('pagerDirective', function($delegate) {
+            var directive = $delegate[0];
+            directive.scope.disablePager = '=disablePager';
+            directive.scope.mySelectPage = '@mySelectPage';
+            return $delegate;
+        });
+    });
+
+// change template for pagination pager
+angular.module("template/pagination/pager.html", []).run(["$templateCache", function($templateCache) {
+    $templateCache.put("template/pagination/pager.html",
+            "<ul class=\"pager\">\n" +
+            "  {{pagerDisable}}<li ng-class=\"{disabled: noPrevious() || disablePager }\"><a href class='btn prev' ng-click=\"disablePager || selectPage(page - 1)\">{{getText('previous')}}</a></li>\n" +
+            "  <li ng-class=\"{disabled: noNext() || disablePager }\"><a href class='btn next' ng-click=\"disablePager || selectPage(page + 1)\">{{getText('next')}}</a></li>\n" +
+            "</ul>");
+}]);
+

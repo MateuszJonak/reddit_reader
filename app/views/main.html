@@ -1,7 +1,7 @@
 
 <div class="row">
 
-    <form id="subreddit-form" ng-submit="displayListing()">
+    <form id="subreddit-form" ng-submit="submitSubreddit()">
         <div class="form-group">
             <label for="subreddit-input">Subreddits:</label>
             <input class="animate-cubic" id="subreddit-input" type="text" ng-model="subreddit" placeholder="Type your subreddits..." />
@@ -16,13 +16,15 @@
 <div class="row pager-box box-shadow-down">
 
     <h4 class="current-page">{{ currentPage }} page</h4>
-    <pager total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage" align="false" ng-change="pageChanged()"></pager>
+    <pager total-items="totalItems" ng-model="currentPage" mySelectPage="mySelectPage()"
+           disable-pager="disablePager" items-per-page="itemsPerPage" align="false"></pager>
 
 </div>
 
-<div class="row">
+<div id="listing-box" class="row" ng-init="ifListing=false">
+    <spinner if-spinner="ifSpinner" url-spinner="images/gif-load.gif"></spinner>
 
-    <ul id="article-list" class="list-unstyled" articles-list="articles">
+    <ul id="article-list" class="list-unstyled animate-if" articles-list="articles" ng-if="ifListing">
 
         <li ng-repeat="a in articles" >
             <a href="/#/details/{{ a.subreddit }}/{{ a.id }}" title="" >
@@ -31,6 +33,5 @@
         </li>
 
     </ul>
-
 
 </div>
