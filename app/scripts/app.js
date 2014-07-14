@@ -102,9 +102,6 @@ angular
 
                         result.resolve({'article': article, 'comments': comments});
 
-                    }).
-                    error(function(data) {
-                        console.log(data);
                     });
                 return result.promise;
 
@@ -126,9 +123,6 @@ angular
                 $http({method: 'POST', url: url, header:headers, withCredentials: true}).
                     success(function(data) {
                         login.resolve(data.json.data);
-                    }).
-                    error(function(data) {
-                        console.log(data);
                     });
                 return login.promise;
             },
@@ -146,9 +140,6 @@ angular
                     };
                     $http({method: 'POST', url: url, header:headers}).
                         success(function(data) {
-                            console.log(data);
-                        }).
-                        error(function(data) {
                             console.log(data);
                         });
                 });

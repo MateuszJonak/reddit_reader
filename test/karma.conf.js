@@ -25,6 +25,9 @@ module.exports = function(config) {
       'bower_components/angular-resource/angular-resource.js',
       'bower_components/angular-route/angular-route.js',
       'bower_components/underscore/underscore.js',
+      'bower_components/angular-sanitize/angular-sanitize.js',
+      'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'app/scripts/*.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'

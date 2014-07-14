@@ -45,21 +45,21 @@ angular.module('redditReaderApp')
         var getListing = function(options){
             showListing(false, true);
             redditFactory.getListing($scope, options)
-            .then(function success(result) {
-                    $scope.articles = result;
+                .then(function success(result) {
+                        $scope.articles = result;
+                        if(newListing){
+                            $scope.currentPage = 1;
+                        }
+                        redditFactory.subreddit = $scope.subreddit;
+                    }, function error(msg) {
+                        $scope.subreddit = msg.oldSubreddit;
+                }).then(function(){
+                    $scope.disablePager = false;
+                    showListing(true, false);
                     if(newListing){
-                        $scope.currentPage = 1;
+                        newListing = false;
                     }
-                    redditFactory.subreddit = $scope.subreddit;
-                }, function error(msg) {
-                    $scope.subreddit = msg.oldSubreddit;
-            }).then(function(){
-                $scope.disablePager = false;
-                showListing(true, false);
-                if(newListing){
-                    newListing = false;
-                }
-            });
+                });
         };
 
         // function is starting when we submit subreddit forms
