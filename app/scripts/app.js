@@ -259,16 +259,6 @@ angular
         };
     })
 
-    // Convert time from articles
-    .filter('urltophoto', function() {
-        return function(val) {
-            if(val.indexOf('imgur.com') > -1 || val.indexOf('jpg') === -1){
-                return val + '.jpg';
-            }
-            return val;
-        };
-    })
-
     .controller('ErrorInstanceCtrl', function ($scope, $modalInstance, items) {
         $scope.items = items;
         $scope.ok = function () {
