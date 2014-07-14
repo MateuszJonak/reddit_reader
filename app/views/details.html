@@ -15,6 +15,7 @@
     <div class="media">
         <div class="media-body" ng-repeat="c in data.comments">
             <h4 class="media-heading">Author: {{ c.author }}</h4>
+            <span>{{ c.created_utc | timesince }}, <ng-pluralize count="c.score" when="{'1': '{} point.', 'other': '{} points.'}"></ng-pluralize></span>
             <div ng-bind-html="c.body_html | htmldecode" ></div>
             <hr />
         </div>
