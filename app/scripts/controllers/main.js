@@ -23,7 +23,7 @@ angular.module('redditReaderApp')
             'limit': 10,
             'before': null,
             'after': null
-        }
+        };
 
         // Initial config for pager
         $scope.totalItems = 1000;
@@ -37,7 +37,7 @@ angular.module('redditReaderApp')
         var showListing = function(listing, spinner){
             $scope.ifListing = listing;
             $scope.ifSpinner = spinner;
-        }
+        };
 
         // that function return listing data for our options file
         // and show and hide div with listing
@@ -48,13 +48,13 @@ angular.module('redditReaderApp')
                 $scope.disablePager = false;
                 showListing(true, false);
             });
-        }
+        };
 
         // function is starting when we submit subreddit forms
         $scope.submitSubreddit = function() {
             $scope.currentPage = 1;
             getListing(optionsListing);
-        }
+        };
 
         // redditFactory emit information that pager must be disable,
         // because he start getting data from reddit
@@ -75,7 +75,7 @@ angular.module('redditReaderApp')
             getListing(options);
         });
 
-    })
+    });
 
 
 

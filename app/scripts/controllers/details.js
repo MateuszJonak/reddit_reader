@@ -15,7 +15,7 @@ angular.module('redditReaderApp')
             depth: 1,
             limit: 10,
             sort: 'top'
-        }
+        };
 
         // return data of article
         redditFactory.getComments($routeParams.subreddit, $routeParams.id, options).then(function(result){
@@ -28,9 +28,9 @@ angular.module('redditReaderApp')
             var dataComment = {
                 text: $scope.comment,
                 name: $scope.data.article.name
-            }
+            };
             redditFactory.addComment(dataComment);
-        }
+        };
     })
 
     // directive defining image from article url
@@ -47,7 +47,7 @@ angular.module('redditReaderApp')
                         if(newValue.indexOf('imgur.com') > -1 || newValue.indexOf('jpg') > -1){
                             urlImg = newValue;
                             // trick for imgur without jpg at the end
-                            if(newValue.indexOf('imgur.com') > -1 && newValue.indexOf('jpg') == -1) {
+                            if(newValue.indexOf('imgur.com') > -1 && newValue.indexOf('jpg') === -1) {
                                 urlImg += '.jpg';
                             }
 
@@ -71,5 +71,5 @@ angular.module('redditReaderApp')
         };
 
 
-    })
+    });
 
