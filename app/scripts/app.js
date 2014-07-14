@@ -65,14 +65,19 @@ angular
 
                     }).
                     error(function() {
-                        $modal.open({
-                            templateUrl: 'modalErrorListing.html',
-                            controller: 'ErrorInstanceCtrl'
-                        });
                         var dataResult = {
                             status: 'error',
                             oldSubreddit: subreddit
                         };
+                        $modal.open({
+                            templateUrl: 'modalErrorListing.html',
+                            controller: 'ErrorInstanceCtrl',
+                            resolve: {
+                                items: function () {
+                                    return dataResult;
+                                }
+                            }
+                        });
                         result.reject(dataResult);
                     });
 
@@ -128,7 +133,7 @@ angular
             },
 
             addComment: function(dataComment){
-
+                var comment = $q.defer();
                 this.login().then(function(result){
                     var loginData = result;
                     var url = 'https://ssl.reddit.com/api/comment?api_type=json&text=' + encodeURIComponent(dataComment.text) + '&thing_id=' + dataComment.name;
@@ -138,14 +143,15 @@ angular
                         'Cookie'     : 'reddit_session=' + loginData.cookie,
                         'Content-Type': 'application/x-www-form-urlencoded'
                     };
+
                     $http({method: 'POST', url: url, header:headers}).
                         success(function(data) {
-                            console.log(data);
+                            // because always will be errors, my login is without oauth2
+                            comment.resolve(data.json);
                         });
+
                 });
-
-
-
+                return comment.promise;
             }
 
         };
@@ -263,7 +269,8 @@ angular
         };
     })
 
-    .controller('ErrorInstanceCtrl', function ($scope, $modalInstance) {
+    .controller('ErrorInstanceCtrl', function ($scope, $modalInstance, items) {
+        $scope.items = items;
         $scope.ok = function () {
             $modalInstance.close();
 

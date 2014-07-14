@@ -50,9 +50,4 @@ describe('Config RouteProvider', function () {
         expect(route.current.controller).toBe('MainCtrl');
     });
 
-
-
-
-
-
 });

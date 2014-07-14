@@ -8,7 +8,7 @@
  * Controller of the redditReaderApp
  */
 angular.module('redditReaderApp')
-    .controller('DetailsCtrl', function ($scope, $routeParams, $sce, redditFactory) {
+    .controller('DetailsCtrl', function ($scope, $routeParams, $sce, $modal, redditFactory) {
 
         // default options for get comments for article name
         var options = {
@@ -38,7 +38,19 @@ angular.module('redditReaderApp')
                 text: $scope.comment,
                 name: $scope.data.article.name
             };
-            redditFactory.addComment(dataComment);
+            redditFactory.addComment(dataComment).then(function(result){
+                if (result.errors.length > 0){
+                    $modal.open({
+                        templateUrl: 'modalErrorComment.html',
+                        controller: 'ErrorInstanceCtrl',
+                        resolve: {
+                            items: function () {
+                                return result;
+                            }
+                        }
+                    });
+                }
+            });
         };
     })
 

@@ -26,7 +26,7 @@ angular.module('redditReaderApp')
         };
 
         // Initial config for pager
-        $scope.totalItems = 1000;
+        $scope.totalItems = Number.POSITIVE_INFINITY;
         $scope.currentPage = 1;
         $scope.itemsPerPage = 10;
 
