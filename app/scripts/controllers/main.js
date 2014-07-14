@@ -80,7 +80,7 @@ angular.module('redditReaderApp')
                 var options = angular.copy(optionsListing);
                 if(newPage !== 1){
                     if( newPage > oldPage){
-                        options.after = $scope.articles[9].name;
+                        options.after = $scope.articles[$scope.articles.length-1].name;
                     } else if (newPage < oldPage) {
                         options.before = $scope.articles[0].name;
                     }

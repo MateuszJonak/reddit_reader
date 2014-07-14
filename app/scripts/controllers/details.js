@@ -17,10 +17,16 @@ angular.module('redditReaderApp')
             sort: 'top'
         };
 
-        // return data of article
-        redditFactory.getComments($routeParams.subreddit, $routeParams.id, options).then(function(result){
-            $scope.data = result;
+        $scope.getArticle = function(){
+            // return data of article
+            redditFactory.getComments($routeParams.subreddit, $routeParams.id, options).then(function(result){
+                $scope.data = result;
 
+            });
+        };
+
+        $scope.$on('$viewContentLoaded', function(){
+            $scope.getArticle();
         });
 
         // function for adding comment after submit text in comment-form
