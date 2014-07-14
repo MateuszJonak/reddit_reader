@@ -17,6 +17,9 @@ angular.module('redditReaderApp')
             sort: 'top'
         };
 
+        $scope.subreddit = $routeParams.subreddit;
+        $scope.id = $routeParams.id;
+
         $scope.getArticle = function(){
             // return data of article
             redditFactory.getComments($routeParams.subreddit, $routeParams.id, options).then(function(result){
