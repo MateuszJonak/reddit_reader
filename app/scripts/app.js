@@ -9,7 +9,6 @@
  * Main module of the application.
  */
 
-
 angular
     .module('redditReaderApp', [
         'ngAnimate',
@@ -35,21 +34,23 @@ angular
             });
     })
 
-    .factory('redditFactory', function($http, $q){
+    .factory('redditFactory', function($http, $q, $modal){
 
+        var subreddit;
         return{
 
             // Subreddit field for display listing
-            subreddit : this.subreddit,
+            subreddit : '',
 
-            getListing: function(scope, subreddit, options){
+            getListing: function(scope, options){
 
                 var listing = [];           // Help array with articles listing
                 var result = $q.defer();    // Add result in to the queue
-                this.subreddit = subreddit; // save subreddit when we want back to main view
+                var subForm = scope.subreddit;
+
 
                 // create url - when we have subreddit we can show article only for this name
-                var url = (subreddit) ? 'http://www.reddit.com/r/' + subreddit + '/new.json' : 'http://www.reddit.com/new.json';
+                var url = (subForm) ? 'http://www.reddit.com/r/' + subForm + '/new.json' : 'http://www.reddit.com/new.json';
                 // emit that we will get data from reddit and controller must disable pager
                 scope.$emit('disablePager');
                 $http({method: 'GET', url: url, params: {sort : options.sort, limit: options.limit, before: options.before, after: options.after}}).
@@ -59,15 +60,23 @@ angular
                         _(data).each(function(item){
                             listing.push(item.data);
                         });
+                        subreddit = subForm;
                         result.resolve(listing);
 
                     }).
-                    error(function(data) {
-                        console.log(data);
+                    error(function() {
+                        $modal.open({
+                            templateUrl: 'modalErrorListing.html',
+                            controller: 'ErrorInstanceCtrl'
+                        });
+                        var dataResult = {
+                            status: 'error',
+                            oldSubreddit: subreddit
+                        };
+                        result.reject(dataResult);
                     });
 
                 return result.promise;
-
             },
 
             getComments: function(subreddit, id, options){
@@ -263,12 +272,18 @@ angular
         };
     })
 
+    .controller('ErrorInstanceCtrl', function ($scope, $modalInstance) {
+        $scope.ok = function () {
+            $modalInstance.close();
+
+        };
+    })
+
     // change default pager directive from ui.bootstrap
     .config(function($provide) {
         $provide.decorator('pagerDirective', function($delegate) {
             var directive = $delegate[0];
             directive.scope.disablePager = '=disablePager';
-            directive.scope.mySelectPage = '@mySelectPage';
             return $delegate;
         });
     });

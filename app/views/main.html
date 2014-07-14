@@ -16,7 +16,7 @@
 <div class="row pager-box box-shadow-down">
 
     <h4 class="current-page">{{ currentPage }} page</h4>
-    <pager total-items="totalItems" ng-model="currentPage" mySelectPage="mySelectPage()"
+    <pager total-items="totalItems" ng-model="currentPage"
            disable-pager="disablePager" items-per-page="itemsPerPage" align="false"></pager>
 
 </div>
@@ -35,3 +35,16 @@
     </ul>
 
 </div>
+
+
+<script type="text/ng-template" id="modalErrorListing.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Error!</h3>
+    </div>
+    <div class="modal-body">
+        <p>Your subreddits doesn't exist. Please try another phrase :)</p>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+    </div>
+</script>
