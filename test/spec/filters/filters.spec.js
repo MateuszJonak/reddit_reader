@@ -16,9 +16,18 @@ describe('Filters:', function () {
         expect(htmldecodeFilter('&lt;div&gt;&lt;p&gt;text&lt;/p&gt;&lt;/div&gt;')).toBe('<div><p>text</p></div>');
     }));
 
-    it('should a htmldecode work perfectly', inject(function (timesinceFilter) {
-        var data = Math.floor((new Date().getTime() / 1000) - 2 * 60);
+    it('should a timesinceFilter work perfectly', inject(function (timesinceFilter) {
+        var twoMin = Math.floor((new Date().getTime() / 1000) - 2 * 60);
+        var threeHours = Math.floor((new Date().getTime() / 1000) - 3 * 3600);
+        var oneDay = Math.floor((new Date().getTime() / 1000) - 1 * 86400);
+        expect(timesinceFilter(twoMin)).toBe('2 minutes ago');
+        expect(timesinceFilter(threeHours)).toBe('3 hours ago');
+        expect(timesinceFilter(oneDay)).toBe('1 day ago');
+    }));
 
-        expect(timesinceFilter(data)).toBe('2 minutes ago');
+    it('should a unsafe work perfectly', inject(function (unsafeFilter) {
+        expect(unsafeFilter('<div>my divs</div>').$$unwrapTrustedValue()).toBe('<div>my divs</div>');
+        expect(unsafeFilter('<div><p>text</p></div>').$$unwrapTrustedValue()).toBe('<div><p>text</p></div>');
+        expect(unsafeFilter('<img src="this/is/my/path.jpg" alt="title"/>').$$unwrapTrustedValue()).toBe('<img src="this/is/my/path.jpg" alt="title"/>');
     }));
 });
