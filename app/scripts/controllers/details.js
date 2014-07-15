@@ -19,9 +19,9 @@ angular.module('redditReaderApp')
 
 
 
-        $scope.getArticle = function(){
+        $scope.getArticle = function(subreddit, id){
             // return data of article
-            redditFactory.getComments($routeParams.subreddit, $routeParams.id, options)
+            redditFactory.getComments(subreddit, id, options)
                 .then(function success(result) {
                     $scope.data = result;
                 }, function error() {
@@ -32,7 +32,7 @@ angular.module('redditReaderApp')
         $scope.$on('$viewContentLoaded', function(){
             $scope.subreddit = $routeParams.subreddit;
             $scope.id = $routeParams.id;
-            $scope.getArticle();
+            $scope.getArticle($scope.subreddit, $scope.id);
         });
 
         // function for adding comment after submit text in comment-form

@@ -27,7 +27,7 @@ module.exports = function(config) {
       'bower_components/underscore/underscore.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-      'app/scripts/*.js',
+      'app/scripts/**/*.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js',
@@ -48,7 +48,7 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      'Chrome'
+      'PhantomJS'
     ],
 
     // Which plugins to enable
