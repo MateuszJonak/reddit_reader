@@ -77,14 +77,6 @@ describe('Controller: MainCtrl', function () {
             expect(scope.articles).toBeUndefined();
         });
 
-
-
     });
-
-
-
-
-
-
 
 });

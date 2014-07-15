@@ -91,14 +91,8 @@ describe('Controller: DetailsCtrl', function () {
             $httpBackend.expectGET('modalErrorComment.html').respond(200);
             $httpBackend.flush();
 
-//            expect(scope.data.article.id).toBe(routeParams.id);
-//            expect(scope.data.article.subreddit).toBe(routeParams.subreddit);
-//            expect(scope.data.comments.length).toBe(2);
         });
 
     });
-
-
-
 
 });

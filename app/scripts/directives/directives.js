@@ -29,16 +29,10 @@ angular.module('App.Directives', [])
                                 element.html(loadElement);
                             });
                         }
-
-
                     }
-
                 });
-
-
             }
         };
-
 
     })
 
