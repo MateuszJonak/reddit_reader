@@ -8,7 +8,7 @@
  * Controller of the redditReaderApp
  */
 angular.module('redditReaderApp')
-    .controller('DetailsCtrl', function ($scope, $routeParams, $sce, $modal, redditFactory) {
+    .controller('DetailsCtrl', function ($scope, $routeParams, $sce, $modal, $location, redditFactory) {
 
         // default options for get comments for article name
         var options = {
@@ -21,10 +21,12 @@ angular.module('redditReaderApp')
 
         $scope.getArticle = function(){
             // return data of article
-            redditFactory.getComments($routeParams.subreddit, $routeParams.id, options).then(function(result){
-                $scope.data = result;
-
-            });
+            redditFactory.getComments($routeParams.subreddit, $routeParams.id, options)
+                .then(function success(result) {
+                    $scope.data = result;
+                }, function error() {
+                    $location.path('/');
+                });
         };
 
         $scope.$on('$viewContentLoaded', function(){

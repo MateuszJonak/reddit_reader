@@ -75,6 +75,9 @@ angular.module('App.Services', [])
 
                         result.resolve({'article': article, 'comments': comments});
 
+                    }).
+                    error(function() {
+                        result.reject();
                     });
                 return result.promise;
 
